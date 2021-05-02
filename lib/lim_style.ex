@@ -1,4 +1,6 @@
 defmodule LimStyle do
+  import LimStyle.Helper
+
   defmacro dfmodule({:=, _, [name, body]}) do
     quote do
       defmodule unquote(name) do
@@ -27,6 +29,9 @@ defmodule LimStyle do
   end
   defmacro dfmacro({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}) do
     dfmacro_tree({:=, nil, [{name, nil, nil}, [{:->, nil, [args, body]}]]})
+  end
+  defmacro dfnx(arg) do
+    dfnx_tree(arg)
   end
 
   defmacro dfnp({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}, {:if, _, [condition]}) do
@@ -73,12 +78,10 @@ defmodule LimStyle do
   end
 
   defp dfn_tree({:=, _, [{name, _, _}, [{:->, _, [args, {:_, _, _}]}]]}) do
-    x = {:def, [],
-         [
-           {name, [], args},
-         ]}
-    Macro.to_string(x) |> IO.puts
-    x
+    {:def, [],
+     [
+       {name, [], args},
+     ]}
   end
 
   defp dfn_tree({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}) do
