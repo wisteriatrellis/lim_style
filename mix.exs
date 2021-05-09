@@ -2,13 +2,13 @@ defmodule LimStyle.MixProject do
   use Mix.Project
 
   @description """
-    this is the program to write codes using my original syntax
+    Macros to write code using my original syntax.
   """
 
   def project do
     [
       app: :lim_style,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.11",
       name: "lim_style",
       description: @description,
