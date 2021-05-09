@@ -10,7 +10,7 @@ by adding `lim_style` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:lim_style, "~> 0.1.0"}
+    {:lim_style, "~> 0.1.1"}
   ]
 end
 ```
