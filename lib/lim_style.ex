@@ -1,6 +1,29 @@
 defmodule LimStyle do
   import LimStyle.Helper
 
+  @moduledoc """  
+  This package includes macros to write code using my style.
+  It is for programmers who prefer Math style to do..end style.
+  I will add more documents soon.
+  
+  ## Example
+      import LimStyle
+
+      dfmodule MyModule = (
+        dfn func1 = (x -> x + 3)
+        dfn func2 = ((a, b) -> 
+          a * b
+        )
+      )
+  """
+
+
+  @doc """
+  ## Example
+      dfmodule MyModule = (
+        # code...
+      )
+  """
   defmacro dfmodule({:=, _, [name, body]}) do
     quote do
       defmodule unquote(name) do
@@ -9,6 +32,12 @@ defmodule LimStyle do
     end
   end
   
+  @doc """
+  ## Example
+      dfn func_if = ((a, b) -> 
+        a * b
+      ), if (is_number(a) and is_number(b))
+  """
   defmacro dfn({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}, {:if, _, [condition]}) do
     dfn_tree({:=, nil, [{name, nil, nil}, [{:->, nil, [args, body]}]]}, {:if, nil, [condition]})
   end
