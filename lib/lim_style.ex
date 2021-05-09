@@ -34,9 +34,12 @@ defmodule LimStyle do
   
   @doc """
   ## Example
-      dfn func_if = ((a, b) -> 
-        a * b
-      ), if (is_number(a) and is_number(b))
+      dfn func = (arg -> 
+        :number
+      ), if (is_number(arg))
+      dfn func = (arg -> 
+        :list
+      ), if (is_list(arg))
   """
   defmacro dfn({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}, {:if, _, [condition]}) do
     dfn_tree({:=, nil, [{name, nil, nil}, [{:->, nil, [args, body]}]]}, {:if, nil, [condition]})
@@ -47,12 +50,20 @@ defmodule LimStyle do
   defmacro dfn({:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}) do
     dfn_tree({:=, nil, [{name, nil, nil}, [{:->, nil, [args, body]}]]})
   end
+
+  ## Deprecated.
+  ## I'm going to delete this.
+  ## If you like this syntax, please let me know.
   defmacro dfn({:"::", _, [{:=, _, [{name, _, _}, [{:->, _, [args, body]}]]}, condition]}) do
     dfn_tree({:"::", nil, [{:=, nil, [{name, nil, nil}, [{:->, nil, [args, body]}]]}, condition]})
   end
+  ## Deprecated.
+  ## I'm going to delete this.
+  ## If you like this syntax, please let me know.
   defmacro dfn({:=, _, [{name, _, _}, {:~>, _, [args, body]}]}) do
     dfn_tree({:=, nil, [{name, nil, nil}, {:~>, nil, [args, body]}]})
   end
+
   defmacro dfconst({:=, _, [{name, _, _}, value]}) do
     dfconst_tree({:=, nil, [{name, nil, nil}, value]})
   end
@@ -167,15 +178,15 @@ defmodule LimStyle do
     {atom, meta, args}
   end
 
-  defp dfs_ast({atom, meta, args}, func) when args |> is_list do
-    {func.(atom), meta, args
-    |> Enum.map(fn arg ->
-       dfs_ast(arg, func)
-     end)}
-  end
-  defp dfs_ast(atom, func) do
-    func.(atom)
-  end
+  #defp dfs_ast({atom, meta, args}, func) when args |> is_list do
+  #  {func.(atom), meta, args
+  #  |> Enum.map(fn arg ->
+  #     dfs_ast(arg, func)
+  #   end)}
+  #end
+  #defp dfs_ast(atom, func) do
+  #  func.(atom)
+  #end
 
   defmacro the(var) do
     {:^, [], [var]}
@@ -185,10 +196,18 @@ defmodule LimStyle do
     {:fn, [], content}
   end
 
+  @doc """
+    Deprecated.
+    I'm going to delete this.
+    If you like this syntax, please let me know.
+  """
   defmacro lmd({:=, _, [{:_, _, _}, content]}) do
     {:fn, [], content}
   end
 
+  ## Deprecated.
+  ## I'm going to delete this.
+  ## If you like this syntax, please let me know.
   defmacro lmd(content) do
     {:fn, [], content}
   end
